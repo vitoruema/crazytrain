@@ -18,8 +18,8 @@
         var chart = new google.visualization.LineChart(
                 document.getElementById('chart_div'));
 		
-	    var options = {width: 800,
-                       height: 600,
+	    var options = {width: 400,
+                       height: 300,
 					   interpolateNulls: true,
 					   pointSize: 2,
 					   vAxis: {format: '##'}
@@ -27,6 +27,22 @@
 					   
 		chart.draw(createDataTable(getTrains(getInput())), options);
     }
+    
+    	function drawChart2() {
+    		var options = {
+    			width: 400,
+                	height: 300,
+			interpolateNulls: true,
+			pointSize: 2,
+			vAxis: {format: '##'}
+		};
+    		var inputBlocks = getInput().split("===");
+    		for (var i = 0; i < inputBlocks.length; i++) {
+    			var chartDiv = "chart_div" + i;
+    			var chart = new google.visualization.LineChart(document.getElementById(chartDiv));
+    			chart.draw(createDataTable(getTrains(inputBlocks[i])), options);
+    		}
+    	}
 	
 	/*
 	 * Return the input text from the textarea.
@@ -40,16 +56,16 @@
 	 */
 	function createDataTable(trains) {
 		var data = new google.visualization.DataTable();
-		// A primeira coluna é referente ao horário dos pontos da rota
+		// A primeira coluna ï¿½ referente ao horï¿½rio dos pontos da rota
 		// do trem
 		data.addColumn('datetime', 'Horario'); // Implicit domain column
-		// As colunas seguintes são referentes a cada trem
+		// As colunas seguintes sï¿½o referentes a cada trem
 		for (var i = 0; i < trains.length; i++) {
-			// Assume que os trens nas linhas vão estar na mesma ordem
+			// Assume que os trens nas linhas vï¿½o estar na mesma ordem
 			data.addColumn('number', trains[i].name); // Implicit data column.
 		}
-		// Adiciona as linhas contendo os horários e as vias dos trens para
-		// estes horários, caso existam
+		// Adiciona as linhas contendo os horï¿½rios e as vias dos trens para
+		// estes horï¿½rios, caso existam
 		var rows = trainPointsToRows(trains);
 		for (var i = 0; i < rows.length; i++) {
 			rows[i];
@@ -59,7 +75,7 @@
 	}
 	
 	/*
-	 * Verifica se o sentido do trem é invertido.
+	 * Verifica se o sentido do trem ï¿½ invertido.
 	 */
 	function trainPointsToRows(trains) {
 		var dates = new Array();
@@ -69,31 +85,31 @@
 		for (var i = 0; i < trains.length; i++) {
 			var trainRoute = trains[i].route;
 			var trainName = trains[i].name;
-			// Inicia a tabela de informações do trem
+			// Inicia a tabela de informaï¿½ï¿½es do trem
 			trainsInfo[trainName] = {};
 			// Para cada ponto na rota do trem
 			for (var j = 0; j < trainRoute.length; j++) {
 				var date = trainRoute[j].date;
 				var track = trainRoute[j].track;
-				// Adiciona o horário do ponto à lista de datas se ele
-				// não estiver contido na lista
+				// Adiciona o horï¿½rio do ponto ï¿½ lista de datas se ele
+				// nï¿½o estiver contido na lista
 				if (dates.indexOf(date) == -1) {
 					dates.push(date);
 				}
 				var segment = segmentFromTrack(track);
-				// Adiciona o segmento referente à via deste ponto à lista
-				// de segmentos caso ele não esteja contido na lista
+				// Adiciona o segmento referente ï¿½ via deste ponto ï¿½ lista
+				// de segmentos caso ele nï¿½o esteja contido na lista
 				if (segments.indexOf(segment) == -1) {
 					segments.push(segment);
 				}
-				// Associa a ocupação da via a um horário específico para
+				// Associa a ocupaï¿½ï¿½o da via a um horï¿½rio especï¿½fico para
 				// cada trem
 				trainsInfo[trainName][date] = track;
 			}
 		}
 		// Ordena os segmentos e as datas. Note que o algoritmo presume que
-		// os segmentos estão nomeados e ordenados em ordem alfabética. Assim,
-		// a representação das rotas não será fiel caso este não seja o caso.
+		// os segmentos estï¿½o nomeados e ordenados em ordem alfabï¿½tica. Assim,
+		// a representaï¿½ï¿½o das rotas nï¿½o serï¿½ fiel caso este nï¿½o seja o caso.
 		segments.sort();
 		dates.sort();
 		var rows = new Array();
@@ -102,13 +118,13 @@
 			var date = dates[i];
 			// Cria uma linha na tabela de dados
 			rows[i] = new Array();
-			// Com a primeira coluna correspondente à data
+			// Com a primeira coluna correspondente ï¿½ data
 			rows[i].push(new Date(date));
 			// E as colunas restantes correspondentes a cada trem
 			for (var j = 0; j < trains.length; j++) {
 				var train = trains[j];
 				var track = trainsInfo[train.name][date];
-				// Onde a coluna contém a informação da via, se o trem
+				// Onde a coluna contï¿½m a informaï¿½ï¿½o da via, se o trem
 				// tiver um ponto composto por esta data e esta via
 				if (track) {
 					var segmentNumber = segments.indexOf(segmentFromTrack(track));
@@ -117,7 +133,7 @@
 					}
 					rows[i].push({v: segmentNumber, f: track});
 				}
-				// Ou null, caso o ponto não exista
+				// Ou null, caso o ponto nï¿½o exista
 				else {
 					rows[i].push(null);
 				}
@@ -127,7 +143,7 @@
 	}
 	
 	/*
-	 * Retorna o segmento referente à via passada como argumento.
+	 * Retorna o segmento referente ï¿½ via passada como argumento.
 	 */
 	function segmentFromTrack(track) {
 		return track.split("_")[0];
@@ -135,11 +151,11 @@
 	
 	/*
 	 * Extrai os nomes e as rotas dos trens do texto de entrada e armazena
-	 * estas informações numa lista de trens.
+	 * estas informaï¿½ï¿½es numa lista de trens.
 	 */
 	function getTrains(input) {
 		var trains = new Array();
-		// Cria os padrões para detectar trens e pontos
+		// Cria os padrï¿½es para detectar trens e pontos
 		var trainPattern = /T[0-9]+/i;
 		var pointPattern = /[A-Z]_[0-9]+ ; .*/i
 		// Quebra o input em linhas.
@@ -148,7 +164,7 @@
 		for (var i = 0; i < lines.length; i++) {
 			var trainMatch = trainPattern.exec(lines[i]);
 			var pointMatch = pointPattern.exec(lines[i]);
-			// Se a linha contém o nome de um trem
+			// Se a linha contï¿½m o nome de um trem
 			if (trainMatch) {
 				// Extrai o nome do trem
 				trainName = trainMatch[0];
@@ -156,13 +172,13 @@
 				train = {name: trainName, route: new Array()}
 				trains.push(train);
 			}
-			// Se a linha contem informação de um ponto
+			// Se a linha contem informaï¿½ï¿½o de um ponto
 			else if (pointMatch) {
 				var pointSplit = pointMatch[0].split(" ; ")
 				var track = pointSplit[0];
 				var date = pointSplit[1];
-				// Cria um par com identificação da via e da hora e adiciona às
-				// informações do trem
+				// Cria um par com identificaï¿½ï¿½o da via e da hora e adiciona ï¿½s
+				// informaï¿½ï¿½es do trem
 				train.route.push({date: date, track: track})
 			}
 		}
@@ -170,11 +186,11 @@
 	}
 	
 	/*
-	 * Verifica se o sentido do trem é invertido.
+	 * Verifica se o sentido do trem ï¿½ invertido.
 	 */
 	function isReversed(train, segments) {
-		// O sentido do trem é invertido se o índice do primeiro segmento do
-		// percurso do trem é maior que o índice do último segmento
+		// O sentido do trem ï¿½ invertido se o ï¿½ndice do primeiro segmento do
+		// percurso do trem ï¿½ maior que o ï¿½ndice do ï¿½ltimo segmento
 		return (segments.indexOf(segmentFromTrack(train.route[0].track)) >
 				segments.indexOf(segmentFromTrack(train.route[train.route.length - 1].track)))
 	}
@@ -193,8 +209,63 @@
 					<input type="button" value="Plotar" onClick="drawChart();">
 				</form>
 			</div>
-			<div id="chart_div"
-				 style="width:800; height:600; display: table-cell">
+			<div id="chart_div0"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div id="chart_div1"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div2"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div3"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div id="chart_div4"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div5"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div6"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div id="chart_div7"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div8"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div9"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div id="chart_div10"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div11"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div12"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+		</div>
+		<div style="display: table-row">
+			<div id="chart_div13"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div14"
+				 style="width:400; height:300; display: table-cell">
+			</div>
+			<div id="chart_div15"
+				 style="width:400; height:300; display: table-cell">
 			</div>
 		</div>
 	</div>
