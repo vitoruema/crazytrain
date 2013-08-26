@@ -38,7 +38,7 @@
 		};
     		var inputBlocks = getInput().split("===");
     		for (var i = 0; i < inputBlocks.length; i++) {
-    			if (i != 0 && i % 3 == 0) {
+    			if (i % 3 == 0) {
     				var row = document.createElement("div");
     				row.style.display = "table-row";
     				var container = document.getElementById('container');
@@ -219,20 +219,6 @@
 					<textarea id="input" rows="35" cols="60"></textarea>
 					<input type="button" value="Plotar" onClick="drawChart2();">
 				</form>
-			</div>
-			<div id="chart_div0"
-				 style="width:400; height:300; display: table-cell">
-			</div>
-		</div>
-		<div style="display: table-row">
-			<div id="chart_div1"
-				 style="width:400; height:300; display: table-cell">
-			</div>
-			<div id="chart_div2"
-				 style="width:400; height:300; display: table-cell">
-			</div>
-			<div id="chart_div3"
-				 style="width:400; height:300; display: table-cell">
 			</div>
 		</div>
 	</div>
