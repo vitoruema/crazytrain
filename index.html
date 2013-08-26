@@ -36,23 +36,43 @@
 			pointSize: 2,
 			vAxis: {format: '##'}
 		};
-    		var inputBlocks = getInput().split("===");
-    		for (var i = 0; i < inputBlocks.length; i++) {
+    		var container = document.getElementById('plots_container');
+    		// Clear old plots
+    		container.innerHTML = ""
+    		// Break the input into multiple steps
+    		var inputSteps = getInput().split("===");
+    		for (var i = 0; i < inputSteps.length; i++) {
     			if (i % 3 == 0) {
-    				var row = document.createElement("div");
-    				row.style.display = "table-row";
-    				var container = document.getElementById('container');
+    				var row = createRowDiv();
     				container.appendChild(row);
     			}
-    			var chartDiv = document.createElement("div");
-    			chartDiv.id = "chart_div" + i;
-    			chartDiv.style.width = 400;
-    			chartDiv.style.height = 300;
-    			chartDiv.style.display = "table-cell";
+    			var chartDiv = createChartDiv(i);
     			row.appendChild(chartDiv);
     			var chart = new google.visualization.LineChart(chartDiv);
-    			chart.draw(createDataTable(getTrains(inputBlocks[i])), options);
+    			chart.draw(createDataTable(getTrains(inputSteps[i])), options);
     		}
+    	}
+    	
+    	
+    	/*
+    	* Create the row element where the chart divs will be placed
+    	*/
+    	function createRowDiv() {
+    		var row = document.createElement("div");
+    		row.style.display = "table-row";
+    		return row;
+    	}
+    	
+    	/*
+    	* Create the div element where the chart will be placed
+    	*/
+    	function createChartDiv(i) {
+    		var chartDiv = document.createElement("div");
+    		chartDiv.id = "chart_div" + i;
+    		chartDiv.style.width = 400;
+    		chartDiv.style.height = 300;
+    		chartDiv.style.display = "table-cell";
+    		return chartDiv;
     	}
 	
 	/*
@@ -209,7 +229,7 @@
   </head>
 
   <body>
-	<div id="container" style="width: 100%; display: table;">
+	<div style="width: 100%; display: table;">
 		<div style="display: table-row">
 			<h1>Crazy train</h1>
 		</div>
@@ -217,10 +237,12 @@
 			<div style="width:400; height:300; display: table-cell">
 				<form>
 					<textarea id="input" rows="35" cols="60"></textarea>
-					<input type="button" value="Plotar" onClick="drawChart2();">
+					<input type="button" value="Plot" onClick="drawChart2();">
 				</form>
 			</div>
 		</div>
+	</div>
+	<div id="plots_container" style="width: 100%; display: table;">
 	</div>
   </body>
 </html>
