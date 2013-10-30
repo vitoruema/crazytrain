@@ -14,7 +14,7 @@
 	/*
 	 * Set configurations and draw the chart
 	 */
-	function drawChart(input_id) {
+	function drawChart(content) {
         	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 		
 	    	var options = {
@@ -23,10 +23,10 @@
 			interpolateNulls: true,
 			pointSize: 2,
 			vAxis: {format: '##'}};
-		chart.draw(createDataTable(getTrains(getInput(input_id))), options);
+		chart.draw(createDataTable(getTrains(content)), options);
     	}
     
-    	function drawChart2(input_id) {
+    	function drawChart2(content) {
     		var options = {
     			width: 400,
         		height: 300,
@@ -38,7 +38,7 @@
     		// Clear old plots
     		container.innerHTML = "";
     		// Break the input into multiple steps
-    		var inputSteps = getInput(input_id).split("===");
+    		var inputSteps = content.split("===");
     		for (var i = 0; i < inputSteps.length; i++) {
     			if (i % 3 == 0) {
     				var row = createRowDiv();
@@ -236,7 +236,7 @@
   				<div style="width:400; height:300; display: table-cell">
   					<form>
   						<textarea id="input1" rows="35" cols="60"></textarea>
-  						<input type="button" value="Plot" onClick="drawChart(\'input1\');">
+  						<input type="button" value="Plot" onClick="drawChart(getInput('input1'));">
   					</form>
   				</div>
   			</div>
@@ -244,7 +244,7 @@
   				<div style="width:400; height:300; display: table-cell">
   					<form>
   						<textarea id="input2" rows="35" cols="60"></textarea>
-  						<input type="button" value="Plot" onClick="drawChart(\'input2\');">
+  						<input type="button" value="Plot" onClick="drawChart(getInput('input2'));">
   					</form>
   				</div>
   			</div>
