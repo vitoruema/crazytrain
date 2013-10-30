@@ -15,27 +15,25 @@
 	 * Set configurations and draw the chart
 	 */
 	function drawChart(input_id) {
-        var chart = new google.visualization.LineChart(
-                document.getElementById('chart_div'));
+        	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 		
-	    var options = {width: 400,
-                       height: 300,
-					   interpolateNulls: true,
-					   pointSize: 2,
-					   vAxis: {format: '##'}
-					   };
-					   
+	    	var options = {
+	    		width: 400,
+                       	height: 300,
+			interpolateNulls: true,
+			pointSize: 2,
+			vAxis: {format: '##'}};
 		chart.draw(createDataTable(getTrains(getInput())), options);
-    }
+    	}
     
     	function drawChart2(input_id) {
     		var options = {
     			width: 400,
-        	height: 300,
-			    interpolateNulls: true,
-			    pointSize: 2,
-			    vAxis: {format: '##'}
-		    };
+        		height: 300,
+			interpolateNulls: true,
+			pointSize: 2,
+			vAxis: {format: '##'}};
+    		
     		var container = document.getElementById('plots_container');
     		// Clear old plots
     		container.innerHTML = "";
@@ -230,7 +228,7 @@
 
   <body>
 	<div style="width: 100%; display: table;">
-		<div style="display: table-row; align: center">
+		<div style="display: table-row; text-align: center">
 			<h1>Crazy train</h1>
 		</div>
 		<div style="display: table-row">
@@ -238,7 +236,7 @@
   				<div style="width:400; height:300; display: table-cell">
   					<form>
   						<textarea id="input1" rows="35" cols="60"></textarea>
-  						<input type="button" value="Plot" onClick="drawChart("input1");">
+  						<input type="button" value="Plot" onClick="drawChart('input1');">
   					</form>
   				</div>
   			</div>
@@ -246,7 +244,7 @@
   				<div style="width:400; height:300; display: table-cell">
   					<form>
   						<textarea id="input2" rows="35" cols="60"></textarea>
-  						<input type="button" value="Plot" onClick="drawChart("input2");">
+  						<input type="button" value="Plot" onClick="drawChart('input2');">
   					</form>
   				</div>
   			</div>
