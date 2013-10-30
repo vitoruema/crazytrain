@@ -14,7 +14,7 @@
 	/*
 	 * Set configurations and draw the chart
 	 */
-	function drawChart() {
+	function drawChart(input_id) {
         var chart = new google.visualization.LineChart(
                 document.getElementById('chart_div'));
 		
@@ -230,26 +230,26 @@
 
   <body>
 	<div style="width: 100%; display: table;">
-		<div style="display: table-row">
+		<div style="display: table-row; align: center">
 			<h1>Crazy train</h1>
 		</div>
 		<div style="display: table-row">
-		  <div style="display: table-column">
-  			<div style="width:400; height:300; display: table-cell">
-  				<form>
-  					<textarea id="input1" rows="35" cols="60"></textarea>
-  					<input type="button" value="Plot" onClick="drawChart2("input1");">
-  				</form>
-  			</div>
-  		</div>
 			<div style="display: table-column">
-  			<div style="width:400; height:300; display: table-cell">
-  				<form>
-  					<textarea id="input2" rows="35" cols="60"></textarea>
-  					<input type="button" value="Plot" onClick="drawChart2("input2");">
-  				</form>
+  				<div style="width:400; height:300; display: table-cell">
+  					<form>
+  						<textarea id="input1" rows="35" cols="60"></textarea>
+  						<input type="button" value="Plot" onClick="drawChart("input1");">
+  					</form>
+  				</div>
   			</div>
-  		</div>
+			<div style="display: table-column">
+  				<div style="width:400; height:300; display: table-cell">
+  					<form>
+  						<textarea id="input2" rows="35" cols="60"></textarea>
+  						<input type="button" value="Plot" onClick="drawChart("input2");">
+  					</form>
+  				</div>
+  			</div>
 		</div>
 	</div>
 	<div id="plots_container" style="width: 100%; display: table;">
