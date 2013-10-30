@@ -1,0 +1,248 @@
+<html>
+  <head>
+        <title>Crazy train!</title>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {'packages':['corechart']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback();
+        
+        /*
+         * Set configurations and draw the chart
+         */
+        function drawChart() {
+        var chart = new google.visualization.LineChart(
+                document.getElementById('chart_div'));
+                
+            var options = {width: 400,
+                       height: 300,
+                                           interpolateNulls: true,
+                                           pointSize: 2,
+                                           vAxis: {format: '##'}
+                                           };
+                                           
+                chart.draw(createDataTable(getTrains(getInput())), options);
+    }
+    
+            function drawChart2() {
+                    var options = {
+                            width: 400,
+                        height: 300,
+                        interpolateNulls: true,
+                        pointSize: 2,
+                        vAxis: {format: '##'}
+                };
+                    var container = document.getElementById('plots_container');
+                    // Clear old plots
+                    container.innerHTML = "";
+                    // Break the input into multiple steps
+                    var inputSteps = getInput().split("===");
+                    for (var i = 0; i < inputSteps.length; i++) {
+                            if (i % 3 == 0) {
+                                    var row = createRowDiv();
+                                    container.appendChild(row);
+                            }
+                            var chartDiv = createChartDiv(i);
+                            row.appendChild(chartDiv);
+                            var chart = new google.visualization.LineChart(chartDiv);
+                            chart.draw(createDataTable(getTrains(inputSteps[i])), options);
+                    }
+            }
+            
+            
+            /*
+            * Create the row element where the chart divs will be placed
+            */
+            function createRowDiv() {
+                    var row = document.createElement("div");
+                    row.style.display = "table-row";
+                    return row;
+            }
+            
+            /*
+            * Create the div element where the chart will be placed
+            */
+            function createChartDiv(i) {
+                    var chartDiv = document.createElement("div");
+                    chartDiv.id = "chart_div" + i;
+                    chartDiv.style.width = 400;
+                    chartDiv.style.height = 300;
+                    chartDiv.style.display = "table-cell";
+                    return chartDiv;
+            }
+        
+        /*
+         * Return the input text from the textarea.
+         */
+        function getInput() {
+                return document.getElementById('input').value;
+        }
+
+        /*
+         * Create a table containing the data that will be used to plot the chart.
+         */
+        function createDataTable(trains) {
+                var data = new google.visualization.DataTable();
+                // A primeira coluna � referente ao hor�rio dos pontos da rota
+                // do trem
+                data.addColumn('datetime', 'Horario'); // Implicit domain column
+                // As colunas seguintes s�o referentes a cada trem
+                for (var i = 0; i < trains.length; i++) {
+                        // Assume que os trens nas linhas v�o estar na mesma ordem
+                        data.addColumn('number', trains[i].name); // Implicit data column.
+                }
+                // Adiciona as linhas contendo os hor�rios e as vias dos trens para
+                // estes hor�rios, caso existam
+                var rows = trainPointsToRows(trains);
+                for (var i = 0; i < rows.length; i++) {
+                        rows[i];
+                        data.addRow(rows[i]);
+                }
+                return data;
+        }
+        
+        /*
+         * Verifica se o sentido do trem � invertido.
+         */
+        function trainPointsToRows(trains) {
+                var dates = new Array();
+                var segments = new Array();
+                var trainsInfo = {};
+                // Para cada trem
+                for (var i = 0; i < trains.length; i++) {
+                        var trainRoute = trains[i].route;
+                        var trainName = trains[i].name;
+                        // Inicia a tabela de informa��es do trem
+                        trainsInfo[trainName] = {};
+                        // Para cada ponto na rota do trem
+                        for (var j = 0; j < trainRoute.length; j++) {
+                                var date = trainRoute[j].date;
+                                var track = trainRoute[j].track;
+                                // Adiciona o hor�rio do ponto � lista de datas se ele
+                                // n�o estiver contido na lista
+                                if (dates.indexOf(date) == -1) {
+                                        dates.push(date);
+                                }
+                                var segment = segmentFromTrack(track);
+                                // Adiciona o segmento referente � via deste ponto � lista
+                                // de segmentos caso ele n�o esteja contido na lista
+                                if (segments.indexOf(segment) == -1) {
+                                        segments.push(segment);
+                                }
+                                // Associa a ocupa��o da via a um hor�rio espec�fico para
+                                // cada trem
+                                trainsInfo[trainName][date] = track;
+                        }
+                }
+                // Ordena os segmentos e as datas. Note que o algoritmo presume que
+                // os segmentos est�o nomeados e ordenados em ordem alfab�tica. Assim,
+                // a representa��o das rotas n�o ser� fiel caso este n�o seja o caso.
+                segments.sort();
+                dates.sort();
+                var rows = new Array();
+                // Para cada data
+                for (var i = 0; i < dates.length; i++) {
+                        var date = dates[i];
+                        // Cria uma linha na tabela de dados
+                        rows[i] = new Array();
+                        // Com a primeira coluna correspondente � data
+                        rows[i].push(new Date(date));
+                        // E as colunas restantes correspondentes a cada trem
+                        for (var j = 0; j < trains.length; j++) {
+                                var train = trains[j];
+                                var track = trainsInfo[train.name][date];
+                                // Onde a coluna cont�m a informa��o da via, se o trem
+                                // tiver um ponto composto por esta data e esta via
+                                if (track) {
+                                        var segmentNumber = segments.indexOf(segmentFromTrack(track));
+                                        if (isReversed(train, segments)) {
+                                                segmentNumber += 1;
+                                        }
+                                        rows[i].push({v: segmentNumber, f: track});
+                                }
+                                // Ou null, caso o ponto n�o exista
+                                else {
+                                        rows[i].push(null);
+                                }
+                        }
+                }
+                return rows;
+        }
+        
+        /*
+         * Retorna o segmento referente � via passada como argumento.
+         */
+        function segmentFromTrack(track) {
+                return track.split("_")[0];
+        }
+        
+        /*
+         * Extrai os nomes e as rotas dos trens do texto de entrada e armazena
+         * estas informa��es numa lista de trens.
+         */
+        function getTrains(input) {
+                var trains = new Array();
+                // Cria os padr�es para detectar trens e pontos
+                var trainPattern = /T[0-9]+/i;
+                var pointPattern = /[A-Z]_[0-9]+ ; .*/i
+                // Quebra o input em linhas.
+                var lines = input.split("\n");
+                // Para cada linha,
+                for (var i = 0; i < lines.length; i++) {
+                        var trainMatch = trainPattern.exec(lines[i]);
+                        var pointMatch = pointPattern.exec(lines[i]);
+                        // Se a linha cont�m o nome de um trem
+                        if (trainMatch) {
+                                // Extrai o nome do trem
+                                trainName = trainMatch[0];
+                                // Adiciona o trem a lista de trens
+                                train = {name: trainName, route: new Array()}
+                                trains.push(train);
+                        }
+                        // Se a linha contem informa��o de um ponto
+                        else if (pointMatch) {
+                                var pointSplit = pointMatch[0].split(" ; ")
+                                var track = pointSplit[0];
+                                var date = pointSplit[1];
+                                // Cria um par com identifica��o da via e da hora e adiciona �s
+                                // informa��es do trem
+                                train.route.push({date: date, track: track})
+                        }
+                }
+                return trains;
+        }
+        
+        /*
+         * Verifica se o sentido do trem � invertido.
+         */
+        function isReversed(train, segments) {
+                // O sentido do trem � invertido se o �ndice do primeiro segmento do
+                // percurso do trem � maior que o �ndice do �ltimo segmento
+                return (segments.indexOf(segmentFromTrack(train.route[0].track)) >
+                                segments.indexOf(segmentFromTrack(train.route[train.route.length - 1].track)))
+        }
+    </script>
+  </head>
+
+  <body>
+        <div style="width: 100%; display: table;">
+                <div style="display: table-row">
+                        <h1>Crazy train</h1>
+                </div>
+                <div style="display: table-row">
+                        <div style="width:400; height:300; display: table-cell">
+                                <form>
+                                        <textarea id="input" rows="35" cols="60"></textarea>
+                                        <input type="button" value="Plot" onClick="drawChart2();">
+                                </form>
+                        </div>
+                </div>
+        </div>
+        <div id="plots_container" style="width: 100%; display: table;">
+        </div>
+  </body>
+</html>
