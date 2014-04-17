@@ -11,7 +11,8 @@
                         // Assume que os trens nas linhas v?o estar na mesma ordem
                         data.addColumn('number', trains[i].name); // Implicit data column.
                 }
-                if (false) {
+                var startTime = false;
+                if (startTime) {
                         // Adiciona a coluna de horario inicial
                         data.addColumn('number', 'Horario inicial')
                 }
