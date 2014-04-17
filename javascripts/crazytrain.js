@@ -1,7 +1,7 @@
         /*
          * Create a table containing the data that will be used to plot the chart.
          */
-        function createDataTable(trains) {
+        function createDataTable(trains, startTime) {
                 var data = new google.visualization.DataTable();
                 // A primeira coluna ? referente ao hor?rio dos pontos da rota
                 // do trem
@@ -13,7 +13,7 @@
                 }
                 // Adiciona as linhas contendo os hor?rios e as vias dos trens para
                 // estes hor?rios, caso existam
-                var rows = trainPointsToRows(trains);
+                var rows = trainPointsToRows(trains, startTime);
                 for (var i = 0; i < rows.length; i++) {
                         rows[i];
                         data.addRow(rows[i]);
@@ -24,7 +24,7 @@
         /*
          * Verifica se o sentido do trem ? invertido.
          */
-        function trainPointsToRows(trains) {
+        function trainPointsToRows(trains, startTime) {
                 var dates = new Array();
                 var segments = new Array();
                 var trainsInfo = {};
@@ -32,7 +32,7 @@
                 for (var i = 0; i < trains.length; i++) {
                         var trainRoute = trains[i].route;
                         var trainName = trains[i].name;
-                        // Inicia a tabela de informa??es do trem
+                        // Inicia a tabela de informações do trem
                         trainsInfo[trainName] = {};
                         // Para cada ponto na rota do trem
                         for (var j = 0; j < trainRoute.length; j++) {
@@ -86,6 +86,15 @@
                                 }
                         }
                 }
+                // Adiciona o horário inicial, caso exista
+                if (startTime) {
+                        var startTimeRow = rows.length;
+                        rows[startTimeRow] = new Array();
+                        rows[startTimeRow].push(new Date(startTime));
+                        for (var segmentNumber = 0; segmentNumber < segments.length; segmentNumber++) {
+                                rows[startTimeRow].push({v: segmentNumber, f: ""})
+                        }
+                }
                 return rows;
         }
         
@@ -100,7 +109,7 @@
          * Extrai os nomes e as rotas dos trens do texto de entrada e armazena
          * estas informa??es numa lista de trens.
          */
-        function getTrains(input) {
+        function parseTrains(input) {
                 var trains = new Array();
                 // Cria os padr?es para detectar trens e pontos
                 var trainPattern = /T[0-9]+/i;
@@ -130,6 +139,28 @@
                         }
                 }
                 return trains;
+        }
+        
+        /*
+         * Faz o parsing do horário inicial de planejamento
+         */
+        function parseStartTime(input) {
+                var startTimeStepPattern = /(Given o horario de inicio de planejamento eh igual a .*)/i
+                var datePattern = /\d+-\d+-\d+\s\d+:\d+:\d+.\d+/i
+                var lines = input.split("\n")
+                var startTimeStepMatch;
+                for (var i = 0; i < lines.length; i++) {
+                        startTimeStepMatch = startTimeStepPattern.exec(lines[i]);
+                }
+                var startTime;
+                if (startTimeStepMatch) {
+                        var startTimeStep = startTimeStepMatch[0];
+                        var dateMatch = datePattern.exec(startTimeStep);
+                        if (dateMatch) {
+                                startTime = dateMatch[0];   
+                        }
+                }
+                return startTime;
         }
         
         /*
