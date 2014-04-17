@@ -62,6 +62,11 @@
                 // os segmentos est?o nomeados e ordenados em ordem alfab?tica. Assim,
                 // a representa??o das rotas n?o ser? fiel caso este n?o seja o caso.
                 segments.sort();
+                if (startTime) {
+                        if (dates.indexOf(startTime) == -1) {
+                                dates.push(startTime);
+                        }
+                }
                 dates.sort();
                 var rows = new Array();
                 // Para cada data
@@ -89,14 +94,11 @@
                                         rows[i].push(null);
                                 }
                         }
-                }
-                // Adiciona o horário inicial, caso exista
-                if (startTime) {
-                        var startTimeRow = rows.length;
-                        rows[startTimeRow] = new Array();
-                        rows[startTimeRow].push(new Date(startTime));
-                        for (var segmentNumber = 0; segmentNumber < segments.length; segmentNumber++) {
-                                rows[startTimeRow].push({v: segmentNumber, f: ""})
+                        // Adiciona o horário inicial, caso exista
+                        if (date == startTime) {
+                                for (var segmentNumber = 0; segmentNumber < segments.length; segmentNumber++) {
+                                        rows[i].push({v: segmentNumber, f: ""})
+                                }
                         }
                 }
                 return rows;
