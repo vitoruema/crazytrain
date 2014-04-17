@@ -11,6 +11,7 @@
                         // Assume que os trens nas linhas v?o estar na mesma ordem
                         data.addColumn('number', trains[i].name); // Implicit data column.
                 }
+                data.addColumn('number', 'Horário inicial')
                 // Adiciona as linhas contendo os hor?rios e as vias dos trens para
                 // estes hor?rios, caso existam
                 var rows = trainPointsToRows(trains, startTime);
