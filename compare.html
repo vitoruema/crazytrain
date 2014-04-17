@@ -36,7 +36,7 @@
     		var chartDiv = createChartDiv(i);
     		row.appendChild(chartDiv);
     		var chart = new google.visualization.LineChart(chartDiv);
-    		chart.draw(createDataTable(getTrains(inputSteps[i])), options);
+    		chart.draw(createDataTable(parseTrains(inputSteps[i])), options);
     	}
     }
     	
