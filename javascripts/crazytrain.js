@@ -1,7 +1,7 @@
         /*
          * Create a table containing the data that will be used to plot the chart.
          */
-        function createDataTable(trains, startTime) {
+        function createDataTable(trains) {
                 var data = new google.visualization.DataTable();
                 // A primeira coluna ? referente ao hor?rio dos pontos da rota
                 // do trem
@@ -11,7 +11,7 @@
                         // Assume que os trens nas linhas v?o estar na mesma ordem
                         data.addColumn('number', trains[i].name); // Implicit data column.
                 }
-                if (startTime) {
+                if (false) {
                         // Adiciona a coluna de horario inicial
                         data.addColumn('number', 'Horario inicial')
                 }
