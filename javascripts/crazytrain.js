@@ -151,11 +151,7 @@
         function parseStartTime(input) {
                 var startTimeStepPattern = /(Given o horario de inicio de planejamento eh igual a .*)/i
                 var datePattern = /\d+-\d+-\d+\s\d+:\d+:\d+.\d+/i
-                var lines = input.split("\n")
-                var startTimeStepMatch;
-                for (var i = 0; i < lines.length; i++) {
-                        startTimeStepMatch = startTimeStepPattern.exec(lines[i]);
-                }
+                var startTimeStepMatch = startTimeStepPattern.exec(input);
                 var startTime;
                 if (startTimeStepMatch) {
                         var startTimeStep = startTimeStepMatch[0];
