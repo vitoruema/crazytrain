@@ -100,7 +100,7 @@
          * Extrai os nomes e as rotas dos trens do texto de entrada e armazena
          * estas informa??es numa lista de trens.
          */
-        function getTrains(input) {
+        function parseTrains(input) {
                 var trains = new Array();
                 // Cria os padr?es para detectar trens e pontos
                 var trainPattern = /T[0-9]+/i;
