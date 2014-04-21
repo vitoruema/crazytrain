@@ -1,4 +1,4 @@
-        /*
+/*
          * Create a table containing the data that will be used to plot the chart.
          */
         function createDataTable(trains) {
@@ -11,14 +11,9 @@
                         // Assume que os trens nas linhas v?o estar na mesma ordem
                         data.addColumn('number', trains[i].name); // Implicit data column.
                 }
-                var startTime = false;
-                if (startTime) {
-                        // Adiciona a coluna de horario inicial
-                        data.addColumn('number', 'Horario inicial')
-                }
                 // Adiciona as linhas contendo os hor?rios e as vias dos trens para
                 // estes hor?rios, caso existam
-                var rows = trainPointsToRows(trains, startTime);
+                var rows = trainPointsToRows(trains);
                 for (var i = 0; i < rows.length; i++) {
                         rows[i];
                         data.addRow(rows[i]);
@@ -29,7 +24,7 @@
         /*
          * Verifica se o sentido do trem ? invertido.
          */
-        function trainPointsToRows(trains, startTime) {
+        function trainPointsToRows(trains) {
                 var dates = new Array();
                 var segments = new Array();
                 var trainsInfo = {};
@@ -37,7 +32,7 @@
                 for (var i = 0; i < trains.length; i++) {
                         var trainRoute = trains[i].route;
                         var trainName = trains[i].name;
-                        // Inicia a tabela de informações do trem
+                        // Inicia a tabela de informa??es do trem
                         trainsInfo[trainName] = {};
                         // Para cada ponto na rota do trem
                         for (var j = 0; j < trainRoute.length; j++) {
@@ -63,11 +58,6 @@
                 // os segmentos est?o nomeados e ordenados em ordem alfab?tica. Assim,
                 // a representa??o das rotas n?o ser? fiel caso este n?o seja o caso.
                 segments.sort();
-                if (startTime) {
-                        if (dates.indexOf(startTime) == -1) {
-                                dates.push(startTime);
-                        }
-                }
                 dates.sort();
                 var rows = new Array();
                 // Para cada data
@@ -95,12 +85,6 @@
                                         rows[i].push(null);
                                 }
                         }
-                        // Adiciona o horário inicial, caso exista
-                        if (date == startTime) {
-                                for (var segmentNumber = 0; segmentNumber < segments.length; segmentNumber++) {
-                                        rows[i].push({v: segmentNumber, f: ""})
-                                }
-                        }
                 }
                 return rows;
         }
@@ -116,7 +100,7 @@
          * Extrai os nomes e as rotas dos trens do texto de entrada e armazena
          * estas informa??es numa lista de trens.
          */
-        function parseTrains(input) {
+        function getTrains(input) {
                 var trains = new Array();
                 // Cria os padr?es para detectar trens e pontos
                 var trainPattern = /T[0-9]+/i;
@@ -146,24 +130,6 @@
                         }
                 }
                 return trains;
-        }
-        
-        /*
-         * Faz o parsing do horário inicial de planejamento
-         */
-        function parseStartTime(input) {
-                var startTimeStepPattern = /(Given o horario de inicio de planejamento eh igual a .*)/i
-                var datePattern = /\d+-\d+-\d+\s\d+:\d+:\d+.\d+/i
-                var startTimeStepMatch = startTimeStepPattern.exec(input);
-                var startTime;
-                if (startTimeStepMatch) {
-                        var startTimeStep = startTimeStepMatch[0];
-                        var dateMatch = datePattern.exec(startTimeStep);
-                        if (dateMatch) {
-                                startTime = dateMatch[0];   
-                        }
-                }
-                return startTime;
         }
         
         /*
