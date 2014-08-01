@@ -104,7 +104,7 @@
                 var trains = new Array();
                 // Cria os padr?es para detectar trens e pontos
                 var trainPattern = /T[0-9]+/i;
-                var pointPattern = /._[0-9]+ ; .*/i
+                var pointPattern = /.+_[0-9]+ ; .*/i
                 // Quebra o input em linhas.
                 var lines = input.split("\n");
                 // Para cada linha,
