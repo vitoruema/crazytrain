@@ -93,7 +93,7 @@
          * Retorna o segmento referente ? via passada como argumento.
          */
         function segmentFromTrack(track) {
-                return track.split("_")[0].substring(0, 1);
+                return track.split("_")[0]; //.substring(0, 1);
         }
         
         /*
