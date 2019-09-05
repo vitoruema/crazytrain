@@ -24,12 +24,16 @@ function drawChartSequence() {
         var chartDiv = createChartDiv(i);
         row.appendChild(chartDiv);
 
-        var chart = new google.visualization.LineChart(chartDiv);
-
-	    var [trains, segments] = parseTrains(inputSteps[i].trim());
-        var options = setOptions(segments);
-
-        chart.draw(createDataTable(trains), options);
+        try {
+            var chart = new google.visualization.LineChart(chartDiv);
+	        var [trains, segments] = parseTrains(inputSteps[i].trim());
+            var options = setOptions(segments);
+            chart.draw(createDataTable(trains), options);
+        }
+        catch (error) {
+            window.alert(error);
+            console.log(error);
+        }
     }
 }
 

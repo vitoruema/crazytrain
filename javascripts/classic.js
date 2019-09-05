@@ -16,17 +16,17 @@ function getInputClassic() {
 * Set configurations and draw the chart
 */
 function drawChartClassic() {
- var input = getInputClassic();
+    var input = getInputClassic();
     try {
-
-    var chart = new google.visualization.LineChart(document.getElementById('classicChart'));
-	var [trains, segments] = parseTrains(input);
-    var options = setOptions(segments);
-    chart.draw(createDataTable(trains), options);
+        var chart = new google.visualization.LineChart(document.getElementById('classicChart'));
+	    var [trains, segments] = parseTrains(input);
+        var options = setOptions(segments);
+        chart.draw(createDataTable(trains), options);
     }
     catch (error) {
         window.alert(error);
-        console.log(error);}
+        console.log(error);
+    }
 
 
 }
