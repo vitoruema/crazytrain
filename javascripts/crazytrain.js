@@ -24,6 +24,7 @@
         /*
          * Verifica se o sentido do trem ? invertido.
          */
+         /*testes*/
         function trainPointsToRows(trains) {
                 var dates = new Array();
                 var segments = new Array();
