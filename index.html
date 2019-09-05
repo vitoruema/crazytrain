@@ -1,13 +1,82 @@
+<!DOCTYPE html>
 <html>
-  <head>
-        <title>Crazy train!</title>
-  </head>
 
-  <body>
-    <ul>
-      <li><a href="classic.html">Classic</a></li>
-      <li><a href="compare.html">Compare</a></li>
-      <li><a href="sequence.html">Sequence</a></li>
-    </ul>
-  </body>
+<title>Crazy train!</title>
+
+<head>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="javascripts/crazytrain.js"></script>
+  <script type="text/javascript" src="javascripts/classic.js"></script>
+  <script type="text/javascript" src="javascripts/compare.js"></script>
+  <script type="text/javascript" src="javascripts/sequence.js"></script>
+  <script type="text/javascript" src="javascripts/main.js"></script>
+  <link href="styles.css" rel="stylesheet"  type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <h2>Crazy Train!</h2>
+
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Classic')">Classic</button>
+    <button class="tablinks" onclick="openTab(event, 'Compare')">Compare</button>
+    <button class="tablinks" onclick="openTab(event, 'Sequence')">Sequence</button>
+  </div>
+
+  <div id="Classic" class="tabcontent">
+    <div style="width: 100%; display: table;">
+      <div style="display: table-row; text-align: center;">
+        <h1>Crazy train - Classic</h1>
+      </div>
+      <div style="display: table-row">
+        <div style="width:400; height:300; display: table-cell">
+          <form>
+            <textarea id="inputClassic" rows="35" cols="60"></textarea>
+            <input type="button" value="Plotar1" onClick="drawChartClassic();">
+          </form>
+        </div>
+          <div id="classicChart" style="width:800; height:600; display: table-cell">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="Compare" class="tabcontent">
+    <div style="width: 100%; display: table;">
+      <div style="display: table-row; text-align: center;">
+        <h1>Crazy train - Compare</h1>
+      </div>
+      <div style="display: table-row">
+        <div style="width:400; height:300; display: table-cell">
+          <form>
+            <textarea id="inputCompare1" rows="35" cols="60"></textarea>
+            <textarea id="inputCompare2" rows="35" cols="60"></textarea>
+            <input type="button" value="Plotar2" onClick="drawChartCompare();">
+          </form>
+        </div>
+      </div>
+    </div>
+      <div id="compareChart" style="width: 100%; display: table;">
+    </div>
+  </div>
+
+  <div id="Sequence" class="tabcontent">
+    <div style="width: 100%; display: table;">
+      <div style="display: table-row; text-align: center">
+        <h1>Crazy train - Sequence</h1>
+      </div>
+        <div style="display: table-row">
+        <div style="width:400; height:300; display: table-cell">
+          <form>
+            <textarea id="inputSequence" rows="35" cols="60"></textarea>
+            <input type="button" value="Plotar3" onClick="drawChartSequence();">
+          </form>
+        </div>
+      </div>
+    </div>
+      <div id="sequenceChart" style="width: 100%; display: table;">
+    </div>
+  </div>
+</body>
 </html>

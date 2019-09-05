@@ -1,61 +1,29 @@
 <html>
-  <head>
-        <title>Crazy train!</title>
+<head>
+    <title>Crazy train!</title>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="javascripts/crazytrain.js"></script>
-    <script type="text/javascript">
-    
-    // Load the Visualization API and the piechart package.
-    google.load('visualization', '1.0', {'packages':['corechart']});
-      
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback();
-    
-        
-        /*
-         * Set configurations and draw the chart
-         */
-        function drawChart() {
-			var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-                
-            var options = {
-				width: 800,
-                height: 600,
-                interpolateNulls: true,
-                pointSize: 2,
-                vAxis: {format: '##'}
-            };
-                                           
-            chart.draw(createDataTable(parseTrains(getInput())), options);
-        }
-        
-        /*
-         * Return the input text from the textarea.
-         */
-        function getInput() {
-                return document.getElementById('input').value;
-        }
-    </script>
-  </head>
+    <script type="text/javascript" src="javascripts/classic.js"></script>
+</head>
 
-  <body>
-        <div style="width: 100%; display: table;">
-                <div style="display: table-row; text-align: center;">
-                        <h1>Crazy train - Classic</h1>
-                </div>
-                <div style="display: table-row">
-                        <div style="width:400; height:300; display: table-cell">
-                                <form>
-                                        <textarea id="input" rows="35" cols="60"></textarea>
-                                        <input type="button" value="Plotar" onClick="drawChart();">
-                                </form>
-                        </div>
-                        <div id="chart_div"
-                                 style="width:800; height:600; display: table-cell">
-                        </div>
-                </div>
+<body>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row; text-align: center;">
+        <h1>Crazy train - Classic</h1>
+    </div>
+    <div style="display: table-row">
+        <div style="width:400; height:300; display: table-cell">
+            <form>
+                <textarea id="inputClassic" rows="35" cols="60"></textarea>
+                <input type="button" value="Plotar" onClick="drawChartClassic();">
+            </form>
         </div>
-        
-  </body>
+        <div id="classicChart"
+             style="width:800; height:600; display: table-cell">
+        </div>
+    </div>
+</div>
+
+</body>
 </html>

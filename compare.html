@@ -2,73 +2,9 @@
   <head>
 	<title>Crazy train!</title>
     <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="javascripts/crazytrain.js"></script>
-    <script type="text/javascript">
-    
-    // Load the Visualization API and the piechart package.
-    google.load('visualization', '1.0', {'packages':['corechart']});
-      
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback();
-	
-	/*
-	 * Set configurations and draw the chart
-	 */ 
-    function drawChart() {
-    	var options = {
-    		width: 600,
-            height: 450,
-			interpolateNulls: true,
-			pointSize: 2,
-			vAxis: {format: '##'}
-		};
-    	var container = document.getElementById('plots_container');
-    	// Clear old plots
-    	container.innerHTML = "";
-    	// Break the input into multiple steps
-    	var inputSteps = [getInput('input1'), getInput('input2')];
-    	for (var i = 0; i < inputSteps.length; i++) {
-    		if (i % 3 == 0) {
-    			var row = createRowDiv();
-    			container.appendChild(row);
-    		}
-    		var chartDiv = createChartDiv(i);
-    		row.appendChild(chartDiv);
-    		var chart = new google.visualization.LineChart(chartDiv);
-    		chart.draw(createDataTable(parseTrains(inputSteps[i])), options);
-    	}
-    }
-    	
-    	
-    /*
-    * Create the row element where the chart divs will be placed
-    */
-    function createRowDiv() {
-    	var row = document.createElement("div");
-    	row.style.display = "table-row";
-    	return row;
-    }
-    	
-    /*
-    * Create the div element where the chart will be placed
-    */
-    function createChartDiv(i) {
-    	var chartDiv = document.createElement("div");
-    	chartDiv.id = "chart_div" + i;
-    	chartDiv.style.width = 600;
-    	chartDiv.style.height = 450;
-    	chartDiv.style.display = "table-cell";
-    	return chartDiv;
-    }
-	
-	/*
-	 * Return the input text from the textarea.
-	 */
-	function getInput(input_id) {
-		return document.getElementById(input_id).value;
-	}
-    </script>
+	  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	  <script type="text/javascript" src="javascripts/crazytrain.js"></script>
+	  <script type="text/javascript" src="javascripts/compare.js"></script>
   </head>
 
   <body>
@@ -81,7 +17,7 @@
 				<form>
 					<textarea id="input1" rows="35" cols="60"></textarea>
 					<textarea id="input2" rows="35" cols="60"></textarea>
-					<input type="button" value="Plot" onClick="drawChart();">
+					<input type="button" value="Plot" onClick="drawChartCompare();">
 				</form>
 			</div>
 		</div>
