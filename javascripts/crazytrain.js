@@ -143,7 +143,7 @@ function findSegmentLen (track, segment) {
 
 /* encontra o proximo segmento considerando o sentido AB */
 function findNextSegmentAB (track, segment) {
-    for (var i = 0; i < segment.length - 1; i++) {
+    for (var i = 0; i < segment.length; i++) {
         if (track == segment[i].name)
         return segment[i].name;
     }
@@ -152,7 +152,7 @@ function findNextSegmentAB (track, segment) {
 
 /* encontra o proximo segmento considerando o sentido BA */
 function findNextSegmentBA (track, segment) {
-    for (var i = 0; i < segment.length - 1; i++) {
+    for (var i = 0; i < segment.length; i++) {
         if (track == segment[i].name)
         return segment[i - 1].name;
     }
