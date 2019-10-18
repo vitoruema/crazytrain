@@ -94,7 +94,10 @@ function calcPosition(trains, kilometragem, segment) {
                 }
             }
             /* posicao final do trem */
-            trainRoute[j].pos = trainRoute[j - 1].pos + findSegmentLen(trainRoute[j - 1].track[0], segment);
+            if (trainRoute[j].track == trainRoute[j - 1].track && trainRoute[j].dist == trainRoute[j - 1].dist)
+                trainRoute[j].pos = trainRoute[j - 1].pos;
+            else
+                trainRoute[j].pos = trainRoute[j - 1].pos + findSegmentLen(trainRoute[j - 1].track[0], segment);
          }
          /* trem indo no sentido BA */
          else {
@@ -113,7 +116,10 @@ function calcPosition(trains, kilometragem, segment) {
                 }
             }
             /* posicao final do trem */
-            trainRoute[j].pos = trainRoute[j - 1].pos - findSegmentLen(trainRoute[j - 1].track[0], segment);
+             if (trainRoute[j].track == trainRoute[j - 1].track && trainRoute[j].dist == trainRoute[j - 1].dist)
+                trainRoute[j].pos = trainRoute[j - 1].pos;
+             else
+                trainRoute[j].pos = trainRoute[j - 1].pos - findSegmentLen(trainRoute[j - 1].track[0], segment);
          }
     }
 }
